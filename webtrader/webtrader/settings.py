@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'exchange.apps.ExchangeConfig',
     'terminal.apps.TerminalConfig',
+    'users.apps.UsersConfig',
     'core.apps.CoreConfig',
 ]
 
@@ -133,3 +134,7 @@ START_PRICE = 100.0
 CHART_TICK_COUNT = 50
 CHART_WIDTH = 600
 CHART_HEIGHT = 400
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'terminal:index'
+# LOGOUT_REDIRECT_URL = 'terminal:index'
