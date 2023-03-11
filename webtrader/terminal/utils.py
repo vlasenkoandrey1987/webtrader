@@ -2,7 +2,13 @@ import base64
 from io import BytesIO
 
 from django.conf import settings
+from django.core.paginator import Paginator
 from matplotlib.figure import Figure
+
+
+def get_page(posts, page_number):
+    paginator = Paginator(posts, settings.TRADES_PER_PAGE)
+    return paginator.get_page(page_number)
 
 
 def create_chart(ticks):

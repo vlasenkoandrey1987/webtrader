@@ -138,3 +138,5 @@ CHART_HEIGHT = 400
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'terminal:index'
 # LOGOUT_REDIRECT_URL = 'terminal:index'
+
+TRADES_PER_PAGE = 5

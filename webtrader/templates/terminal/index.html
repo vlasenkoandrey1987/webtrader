@@ -7,10 +7,69 @@
     {{ symbol.description }} [TICKER: {{ symbol.ticker }}]
   </div>
   <br>
-  <div class="col-12 col-md-12 col-xl-12">
-    <div class="card text-center">
-      <div class="card-body">
-        <img src="data:image/png;base64,{{ chart }}"/>
+  <div class="row">
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Заявка</h5>
+          <img src="data:image/png;base64,{{ chart }}"/>
+          {% include 'includes/error_control.html' %}
+          <form method="post"
+             action="{% url 'terminal:index' %}"
+          >
+            {% csrf_token %}
+            {% for field in form %}
+              {% include 'includes/form.html' %}
+            {% endfor %}
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">
+                Отправить заявку
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Сделки</h5>
+          <div class="row">
+            <div class="col-2 col-md-2 col-xl-2"><p>Номер</p></div>
+            <div class="col-2 col-md-2 col-xl-2"><p>Операция</p></div>
+            <div class="col-2 col-md-2 col-xl-2"><p>Цена</p></div>
+            <div class="col-2 col-md-2 col-xl-2"><p>Кол-во</p></div>
+            <div class="col-4 col-md-4 col-xl-4"><p>Дата</p></div>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for trade in trades %}
+            <li class="list-group-item">
+              {% include 'includes/trade.html' %}
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="card-body">
+          {% include 'includes/paginator.html' %}
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Баланс</h5>
+          <div class="row">
+            <div class="col-2 col-md-2 col-xl-2"><p>Операция</p></div>
+            <div class="col-4 col-md-4 col-xl-4"><p>Средняя цена</p></div>
+            <div class="col-2 col-md-2 col-xl-2"><p>Кол-во</p></div>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for balance_item in balance %}
+            <li class="list-group-item">
+              {% include 'includes/balance_item.html' %}
+            </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>
