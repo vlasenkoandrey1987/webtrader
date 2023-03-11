@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+  Web terminal
+{% endblock %}
+{% block content %}
+  <div class="card-header">
+    {{ symbol.description }} [TICKER: {{ symbol.ticker }}]
+  </div>
+  <br>
+  <div class="col-12 col-md-12 col-xl-12">
+    <div class="card text-center">
+      <div class="card-body">
+        <img src="data:image/png;base64,{{ chart }}"/>
+      </div>
+    </div>
+  </div>
+{% endblock %}
