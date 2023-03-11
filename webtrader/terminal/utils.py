@@ -1,4 +1,5 @@
 import base64
+import logging
 from io import BytesIO
 
 from django.conf import settings
@@ -22,3 +23,19 @@ def create_chart(ticks):
     fig.savefig(buf, format="png")
     chart = base64.b64encode(buf.getbuffer()).decode("ascii")
     return chart
+
+
+def get_logger(name):
+    logger = logging.getLogger(name)
+    if not logger.handlers:
+        logger.addHandler(logging.StreamHandler())
+
+    class Logger:
+        def __enter__(self):
+            logger.setLevel(logging.DEBUG)
+            return logger
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            logger.setLevel(logging.CRITICAL)
+
+    return Logger()

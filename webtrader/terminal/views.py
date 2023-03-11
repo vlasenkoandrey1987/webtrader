@@ -7,7 +7,7 @@ from exchange.utils import get_market_price
 
 from .forms import TradeForm
 from .models import Trade
-from .utils import create_chart, get_page
+from .utils import create_chart, get_logger, get_page
 
 
 def _get_last_prices(symbol, count):
@@ -17,23 +17,16 @@ def _get_last_prices(symbol, count):
 
 
 def _get_trade_page(symbol, trader, page_number):
-    import logging
-    logger = logging.getLogger('django.db.backends')
-    logger.setLevel(logging.DEBUG)
-    if not logger.handlers:
-        logger.addHandler(logging.StreamHandler())
-
-    trades = Trade.objects.select_related(
-        'symbol',
-        'operation',
-        'trader',
-    ).filter(
-        symbol=symbol,
-        trader=trader,
-    )
-
-    logger.debug(trades)
-    logger.setLevel(logging.CRITICAL)
+    with get_logger('django.db.backends') as logger:
+        trades = Trade.objects.select_related(
+            'symbol',
+            'operation',
+            'trader',
+        ).filter(
+            symbol=symbol,
+            trader=trader,
+        )
+        logger.debug(trades)
     return get_page(trades, page_number)
 
 
